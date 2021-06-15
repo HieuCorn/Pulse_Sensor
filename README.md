@@ -13,7 +13,7 @@ Blynk.
 
 
 # Build
-Run code in Arduino IDE 
+Run code in Arduino IDE // 
 Get Auth Token in your mail and paste to { char auth[] = "// Authentication Token"; }
 
 # Signals shown in Arduino IDE and Blynk
