@@ -12,13 +12,13 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 //Tham số -1 nghĩa là màn hình OLED không có chân Reset
 
-char auth[] = "vGbHjZV8kE0dR44WwxS7C-eXdoqPfwjT";       // Authentication Token
+char auth[] = "vGbHjZV8kE0dR44WwxS7C-eXdoqPfwjT";       // Auth Token
 char ssid[] = "SSS_D";        //Tên Wifi
 char pass[] = "123@123Hh";       //Mật khẩu Wifi
-int UpperThreshold = 540;
-int LowerThreshold = 510;
-int reading = 0;
-float BPM = 0.0;
+int UpperThreshold = 518; //Giá trị ngưỡng trên, Xác định tín hiệu nào được tính là 1 nhịp, tín hiệu nào bỏ qua.
+int LowerThreshold = 490; //Giá trị ngưỡng dưới
+int reading = 0; //Đọc giá trị ADC từ cảm biến
+float BPM = 0.0; //Nhịp tim
 bool IgnoreReading = false;
 bool FirstPulseDetected = false;
 unsigned long FirstPulseTime = 0;
@@ -54,21 +54,20 @@ void loop()
   Blynk.run();
   BPM_True();
   Send_Blynk();
-  delay(200);
 }
 
 void BPM_True()
 {
-  // Get current time
+  //Nhận thời gian hiện tại
   unsigned long currentMillis = millis();
 
-  // First event
+  //Thiết lập thời gian đo cho 1 xung
   if (myTimer1(delayTime, currentMillis) == 1)
   {
 
     reading = analogRead(0);
 
-    // Heart beat leading edge detected.
+    //Giá trị đọc được vượt ngưỡng UpperThreshold
     if (reading > UpperThreshold && IgnoreReading == false)
     {
       if (FirstPulseDetected == false)
@@ -84,17 +83,18 @@ void BPM_True()
       IgnoreReading = true;      
     }
 
-    // Heart beat trailing edge detected.
+    //Giá trị đọc được dưới ngưỡng LowerThreshold
     if (reading < LowerThreshold && IgnoreReading == true)
     {
       IgnoreReading = false;    
     }
 
-    // Calculate Beats Per Minute.
+    // Tính nhịp đập mỗi phút
     BPM = int((1.0 / PulseInterval) * 60.0 * 1000); // Ép kiểu int để nhận giá trị nguyên
+    //Khoảng thời gian được tính bằng ms, *1000 để chuyển sang s,*60 để chuyển sang phút
   }
 
-  // Second event
+  //Hiển thị lên Serial
   if (myTimer2(delayTime2, currentMillis) == 1)
   {
     Serial.print(reading);
@@ -122,10 +122,11 @@ void Send_Blynk()
   Blynk.virtualWrite(V7, BPM); //Truyền dữ liệu lên bộ Gauge kênh V7
 }
 
-// First event timer
+//Bộ đếm thời gian cập nhật phép tính BPM
 int myTimer1(long delayTime, long currentMillis) 
 {
-  if (currentMillis - previousMillis >= delayTime) {
+  if (currentMillis - previousMillis >= delayTime) 
+  {
     previousMillis = currentMillis;
     return 1;
   }
@@ -134,10 +135,11 @@ int myTimer1(long delayTime, long currentMillis)
   }
 }
 
-// Second event timer
+//Bộ đếm thời gian cập nhật hiển thị lên Serial
 int myTimer2(long delayTime2, long currentMillis) 
 {
-  if (currentMillis - previousMillis2 >= delayTime2) {
+  if (currentMillis - previousMillis2 >= delayTime2)
+  {
     previousMillis2 = currentMillis;
     return 1;
   }
