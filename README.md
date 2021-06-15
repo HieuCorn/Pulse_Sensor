@@ -18,7 +18,6 @@ Import Node MCU V1.0, Oled and Pulsesensor to Fritzing
 # Build
 Run code file "Pulsesensor_Done.ino"  in Arduino IDE // 
 Get Auth Token in your mail and paste to { char auth[] = "// Authentication Token"; }
-Pulsesensor_Done.ino
 
 # Signals shown in Arduino IDE and Blynk
 https://drive.google.com/drive/folders/1LjRWbSc-vx5bPZJhZDcp_7qsjUsijzn6?usp=sharing
