@@ -1,9 +1,7 @@
 # Pulse_Sensor
 Pulsesensor using ESP8266 and Blynk app
 
-# Download Lib for project here
-https://drive.google.com/drive/folders/1ODlDZXGABxYZMElFUms90-uaIzLLhmf4?usp=sharing
-
+# Download Lib for project
 Adafruit_BusIO-master,
 Adafruit_GFX_Library,
 Adafruit_SSD1306,
@@ -11,7 +9,7 @@ Pulsesensor,
 Blynk.
 
 # Connection diagrams - Fritzing
-https://drive.google.com/drive/folders/1ltshpjH9p4IUJwECXZo6rBL8gZ7jxfpQ?usp=sharing
+https://fritzing.org/
 
 Import Node MCU V1.0, Oled and Pulsesensor to Fritzing
 
