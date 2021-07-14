@@ -15,8 +15,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 char auth[] = "vGbHjZV8kE0dR44WwxS7C-eXdoqPfwjT";       // Auth Token
 char ssid[] = "SSS_D";        //Tên Wifi
 char pass[] = "123@123Hh";       //Mật khẩu Wifi
-int UpperThreshold = 518; //Giá trị ngưỡng trên, Xác định tín hiệu nào được tính là 1 nhịp, tín hiệu nào bỏ qua.
-int LowerThreshold = 490; //Giá trị ngưỡng dưới
+int UpperThreshold = 550; //Giá trị ngưỡng trên, Xác định tín hiệu nào được tính là 1 nhịp, tín hiệu nào bỏ qua.
+int LowerThreshold = 530; //Giá trị ngưỡng dưới
 int reading = 0; //Đọc giá trị ADC từ cảm biến
 float BPM = 0.0; //Nhịp tim
 bool IgnoreReading = false;
