@@ -28,6 +28,9 @@ const unsigned long delayTime = 10;
 const unsigned long delayTime2 = 1000;
 unsigned long previousMillis = 0;
 unsigned long previousMillis2 = 0;
+unsigned long Count1 = 0; //Đếm số lần đo giá trị BPM để tính trung bình
+unsigned long Count2 = 0; //Tính giá trị 10 lần đo
+unsigned long AveragrBPM = 0; //Tính giá trị BPM trung bình
 
 void setup() {
   Serial.begin(9600); // Tốc độ baud
@@ -88,10 +91,20 @@ void BPM_True()
     {
       IgnoreReading = false;    
     }
+      BPM = int((1.0 / PulseInterval) * 60.0 * 1000);
+      // Tính nhịp đập mỗi phút
+     // Ép kiểu int để nhận giá trị nguyên
+    //Khoảng thời gian được tính bằng ms, *1000 để chuyển sang s,*60 để chuyển   sang phút
 
-    // Tính nhịp đập mỗi phút
-    BPM = int((1.0 / PulseInterval) * 60.0 * 1000); // Ép kiểu int để nhận giá trị nguyên
-    //Khoảng thời gian được tính bằng ms, *1000 để chuyển sang s,*60 để chuyển sang phút
+    for ( Count1 = 0; Count <=10; Count++)
+    {
+      Count2 = Count 2 + BPM;
+      if ( Count1 == 10)
+     {
+      AveragrBPM = int(Count2/10);
+      Count2 = 0;
+     }
+    }
   }
 
   //Hiển thị lên Serial
@@ -101,8 +114,8 @@ void BPM_True()
     Serial.print("\t");
     Serial.print(PulseInterval);
     Serial.print("\t");
-    Serial.print(BPM); 
-    Serial.println(" BPM "); // Gửi giá trị tín hiệu đến Serial Plotter.
+    Serial.print(AveragrBPM); 
+    Serial.println(" AveragrBPM "); // Gửi giá trị tín hiệu đến Serial Plotter.
     Serial.flush();
   }                   
   display.clearDisplay(); //Xóa bộ đệm hiển thị bằng clearDisplay()
@@ -111,15 +124,15 @@ void BPM_True()
   display.setCursor(0, 10); //Xác định vị trí mà văn bản bắt đầu bằng cách sử dụng setCursor(x, y)
   display.println("Measure heartbeat"); // Gửi văn bản đến màn hình bằng cách sử dụng println()
   display.setCursor(0, 30);
-  display.println("BPM");
+  display.println("AveragrBPM ");
   display.setCursor(40, 30);
-  display.println(String(BPM));
+  display.println(String(AveragrBPM));
   display.display();
 }
 
 void Send_Blynk()
 {
-  Blynk.virtualWrite(V7, BPM); //Truyền dữ liệu lên bộ Gauge kênh V7
+  Blynk.virtualWrite(V7, AveragrBPM); //Truyền dữ liệu lên bộ Gauge kênh V7
 }
 
 //Bộ đếm thời gian cập nhật phép tính BPM
